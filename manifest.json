@@ -1,0 +1,21 @@
+{
+    "name": "Pressure Gauge",
+    "short_name": "PressureGauge",
+    "description": "Monitor your blood pressure and heart rate",
+    "start_url": "index.php",
+    "display": "standalone",
+    "background_color": "#000000",
+    "theme_color": "#2c3e50",
+    "icons": [
+      {
+        "src": "icon-192.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      },
+      {
+        "src": "icon-512.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ]
+  }

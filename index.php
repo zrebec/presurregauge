@@ -2,6 +2,17 @@
 // Autoload packages
 require 'vendor/autoload.php';
 
+// Display errors
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
+// Start the session
+session_start();
+
+// Set the content type
+header("Cache-Control: no-cache, must-revalidate");
+header("Content-Type: text/html; charset=utf-8");
+
 // Import Twig
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
@@ -9,10 +20,6 @@ use Twig\Loader\FilesystemLoader;
 // Inicializácia Twig
 $loader = new FilesystemLoader('templates');
 $twig = new Environment($loader);
-
-// Display errors
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
 
 // Connect to the database using PDO
 try {
