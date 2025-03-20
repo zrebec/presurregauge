@@ -1,0 +1,7 @@
+{
+    "name": "zrebec/pressuregauge",
+    "type": "project",
+    "require": {
+        "twig/twig": "^3.0"
+    }
+}

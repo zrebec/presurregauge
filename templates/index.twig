@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./style.css">
+    <title>Pressure Gauge</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Pressure gauge</h1>
+        {% if success_message %}
+            <div class="success-message">{{ success_message }}</div>
+        {% endif %}
+        
+        <form action="index.php" method="post">
+            <div class="form">
+                <div class="row">
+                    <label for="date">Date:</label>
+                    <input type="date" id="date" name="date" value="{{ current_date }}" required>
+                </div>
+
+                <div class="row">
+                    <label for="time">Time:</label>
+                    <input type="time" id="time" name="time" value="{{ current_time }}" step="1" required>
+                </div>
+
+                <div class="row">
+                    <label for="systolic-pressure">Systolic Pressure:</label>
+                    <input type="number" id="systolic-pressure" name="systolicpressure" placeholder="120" required>
+                </div>
+
+                <div class="row">
+                    <label for="diastolic-pressure">Diastolic Pressure:</label>
+                    <input type="number" id="diastolic-pressure" name="diastolicpressure" placeholder="80" required>
+                </div>
+
+                <div class="row">
+                    <label for="heartrate">Heart rate:</label>
+                    <input type="number" id="heartrate" name="heartrate" placeholder="80">
+                </div>
+
+                <input type="submit" value="Submit">
+            </div>
+        </form>
+
+        <!-- Display the table -->
+        <h2>Recorded Data</h2>
+        <div class="measurements-container">
+            {% for measurement in measurements %}
+                <div class="measurement">
+                    <div class="measurement-date">{{ measurement.formatted_date }}</div>
+                    <div class="measurement-id">{{ measurement.id }}</div>
+                    <div class="measurement-data">
+                        <div>Blood Pressure: {{ measurement.systolicpressure }}/{{ measurement.diastolicpressure }} mmHg</div>
+                        <div>Heart Rate: {{ measurement.heartrate ? measurement.heartrate ~ ' BPM' : 'Not measured' }}</div>
+                    </div>
+                </div>
+            {% else %}
+                <div style="padding: 1rem; text-align: center; color: rgba(0,0,0,0.7);">No measurements recorded yet.</div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        // JavaScript pre aktualizáciu dátumu a času
+        document.addEventListener('DOMContentLoaded', function() {
+            const dateInput = document.getElementById('date');
+            const timeInput = document.getElementById('time');
+            
+            // Príznaky pre sledovanie, či užívateľ upravil hodnoty
+            let dateModified = false;
+            let timeModified = false;
+            
+            // Nastavenie príznakov pri manuálnej zmene hodnôt
+            dateInput.addEventListener('change', function() {
+                dateModified = true;
+            });
+            
+            timeInput.addEventListener('change', function() {
+                timeModified = true;
+            });
+            
+            // Funkcia na aktualizáciu času
+            function updateCurrentTime() {
+                const now = new Date();
+                
+                // Formátovanie dátumu YYYY-MM-DD
+                if (!dateModified) {
+                    const year = now.getFullYear();
+                    const month = String(now.getMonth() + 1).padStart(2, '0');
+                    const day = String(now.getDate()).padStart(2, '0');
+                    dateInput.value = `${year}-${month}-${day}`;
+                }
+                
+                // Formátovanie času HH:MM:SS
+                if (!timeModified) {
+                    const hours = String(now.getHours()).padStart(2, '0');
+                    const minutes = String(now.getMinutes()).padStart(2, '0');
+                    const seconds = String(now.getSeconds()).padStart(2, '0');
+                    timeInput.value = `${hours}:${minutes}:${seconds}`;
+                }
+            }
+            
+            // Aktualizácia času každú sekundu
+            updateCurrentTime();
+            setInterval(updateCurrentTime, 1000);
+        });
+    </script>
+</body>
+</html>
