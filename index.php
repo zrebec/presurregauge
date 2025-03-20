@@ -20,10 +20,15 @@ use Twig\Loader\FilesystemLoader;
 // Inicializácia Twig
 $loader = new FilesystemLoader('templates');
 $twig = new Environment($loader);
+$seed = '';
 
 // Connect to the database using PDO
 try {
-    $db = new PDO('sqlite:' . __DIR__ . '/data/pressuregauge.db');
+    if (is_dir('../../database')) {
+        $db = new PDO('sqlite:' . '../../database/pressuregauge.db');
+    } else {
+        $db = new PDO('sqlite:' . __DIR__ . '/data/pressuregauge.db');
+    }
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
     // Create table if not exists
@@ -34,13 +39,20 @@ try {
         diastolicpressure INTEGER,
         heartrate INTEGER NULL
     )");
+
+    $db->exec("CREATE TABLE IF NOT EXISTS config (
+        key TEXT PRIMARY KEY,
+        value TEXT
+    )");
+
+    $seed = $db->query("SELECT value FROM config where key = 'seed'")->fetchColumn();
 } catch(PDOException $e) {
     die("Connection failed: " . $e->getMessage());
 }
 
 // Handle the form submission  
 $success_message = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && sha1($_POST['seed']) === $seed) {
     $date = $_POST['date'];
     $time = $_POST['time'];
     $timestamp = date('Y-m-d H:i:s', strtotime($date . ' ' . $time));
