@@ -106,7 +106,9 @@ A reference SQL file is available in `data/pressuregauge.sql` with the full sche
 ├── data/
 │   └── pressuregauge.sql  # Reference schema and sample queries
 ├── composer.json           
-└── favicon.*              # App icons (SVG, ICO, PNG variants)
+├── assets
+│    └── icons
+│        └── favicon.*              # App icons (SVG, ICO, PNG variants)
 ```
 
 ## Roadmap
