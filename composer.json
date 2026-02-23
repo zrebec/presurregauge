@@ -1,6 +1,9 @@
 {
     "name": "zrebec/pressuregauge",
     "type": "project",
+    "license": "MIT",
+    "description": "Tool for records for blood preassure, SpO2, heart rate.",
+    "version": "3.0.0",
     "require": {
         "twig/twig": "^3.0"
     }
