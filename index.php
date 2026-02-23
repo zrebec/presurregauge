@@ -37,7 +37,8 @@ try {
         date TEXT,
         systolicpressure INTEGER,
         diastolicpressure INTEGER,
-        heartrate INTEGER NULL
+        heartrate INTEGER NULL,
+        spo2 INTEGER NULL
     )");
 
     $db->exec("CREATE TABLE IF NOT EXISTS config (
@@ -59,16 +60,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && sha1($_POST['seed']) === $seed) {
     $systolicpressure = $_POST['systolicpressure'];
     $diastolicpressure = $_POST['diastolicpressure'];
     $heartrate = !empty($_POST['heartrate']) ? $_POST['heartrate'] : null;
+    $spo2 = !empty($_POST['spo2']) ? $_POST['spo2'] : null;
 
     try {
         // Insert the data using PDO prepared statement
-        $stmt = $db->prepare('INSERT INTO pressuregauge (date, systolicpressure, diastolicpressure, heartrate) 
-                            VALUES (:date, :systolicpressure, :diastolicpressure, :heartrate)');
+        $stmt = $db->prepare('INSERT INTO pressuregauge (date, systolicpressure, diastolicpressure, heartrate, spo2) 
+                            VALUES (:date, :systolicpressure, :diastolicpressure, :heartrate, :spo2)');
         
         $stmt->bindParam(':date', $timestamp);
         $stmt->bindParam(':systolicpressure', $systolicpressure);
         $stmt->bindParam(':diastolicpressure', $diastolicpressure);
         $stmt->bindParam(':heartrate', $heartrate);
+        $stmt->bindParam(':spo2', $spo2);
         
         $stmt->execute();
         $success_message = "Pressure gauge data has been saved.";
