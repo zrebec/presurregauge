@@ -12,7 +12,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="Pressure Gauge">
-    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="apple-touch-icon" href="favicon-192.png">
 
     <title>Pressure Gauge</title>
 </head>
@@ -94,6 +94,12 @@
     </div>
 
     <script>
+
+        // Add JS into serviceworker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js');
+        }
+
         // JavaScript pre aktualizáciu dátumu a času
         document.addEventListener('DOMContentLoaded', function() {
             const dateInput = document.getElementById('date');
