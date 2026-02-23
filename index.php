@@ -30,21 +30,6 @@ try {
         $db = new PDO('sqlite:' . __DIR__ . '/data/pressuregauge.db');
     }
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    
-    // Create table if not exists
-    $db->exec("CREATE TABLE IF NOT EXISTS pressuregauge (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        date TEXT,
-        systolicpressure INTEGER,
-        diastolicpressure INTEGER,
-        heartrate INTEGER NULL,
-        spo2 INTEGER NULL
-    )");
-
-    $db->exec("CREATE TABLE IF NOT EXISTS config (
-        key TEXT PRIMARY KEY,
-        value TEXT
-    )");
 
     $seed = $db->query("SELECT value FROM config where key = 'seed'")->fetchColumn();
 } catch(PDOException $e) {
@@ -61,17 +46,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && sha1($_POST['seed']) === $seed) {
     $diastolicpressure = $_POST['diastolicpressure'];
     $heartrate = !empty($_POST['heartrate']) ? $_POST['heartrate'] : null;
     $spo2 = !empty($_POST['spo2']) ? $_POST['spo2'] : null;
+    $note = !empty($_POST['note']) ? $_POST['note'] : null;
 
     try {
         // Insert the data using PDO prepared statement
-        $stmt = $db->prepare('INSERT INTO pressuregauge (date, systolicpressure, diastolicpressure, heartrate, spo2) 
-                            VALUES (:date, :systolicpressure, :diastolicpressure, :heartrate, :spo2)');
+        $stmt = $db->prepare('INSERT INTO pressuregauge (date, systolicpressure, diastolicpressure, heartrate, spo2, note) 
+                            VALUES (:date, :systolicpressure, :diastolicpressure, :heartrate, :spo2, :note)');
         
         $stmt->bindParam(':date', $timestamp);
         $stmt->bindParam(':systolicpressure', $systolicpressure);
         $stmt->bindParam(':diastolicpressure', $diastolicpressure);
         $stmt->bindParam(':heartrate', $heartrate);
         $stmt->bindParam(':spo2', $spo2);
+        $stmt->bindParam(':note', $note);
         
         $stmt->execute();
         $success_message = "Pressure gauge data has been saved.";
@@ -82,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && sha1($_POST['seed']) === $seed) {
 
 // Get all records from the database
 try {
-    $query = $db->query("SELECT id, date, systolicpressure, diastolicpressure, heartrate FROM pressuregauge ORDER BY date DESC");
+    $query = $db->query("SELECT id, date, systolicpressure, diastolicpressure, heartrate, spo2, note FROM pressuregauge ORDER BY date DESC");
     $measurements = $query->fetchAll(PDO::FETCH_ASSOC);
     
     // Format dates
