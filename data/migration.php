@@ -17,9 +17,8 @@
 // CONFIGURATION
 // ============================================================
 
-// Path to SQLite database (same logic as index.php)
+// Path to SQLite database and migration scripts
 $dbPath = '../pressuregauge.db';
-// Path to migrations directory
 $migrationsDir = __DIR__ . '/migrations';
 
 // ============================================================
