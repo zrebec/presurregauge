@@ -25,7 +25,7 @@ INSERT INTO pressuregauge (date, systolicpressure, diastolicpressure, heartrate,
     ('2025-03-02 13:01', 130, 77, 60, 89, NULL), -- Without note
     ('2025-04-01 14:02', 96, 65, NULL, 91, NULL), -- without bpm and note,
     ('2025-03-02 13:01', 133, 85, 105, NULL, NULL), -- arrythmia without spo2 and note
-    ('2025-03-02 13:01', 111, 69, NULL, NULL), -- just pressure
+    ('2025-03-02 13:01', 111, 69, NULL, NULL, NULL), -- just pressure
     ('2025-03-02 13:01', 121, 76, NULL, NULL, 'Len tlak'); -- only pressure and note
 
 INSERT INTO config (key, value) VALUES ('version', '1.1');
