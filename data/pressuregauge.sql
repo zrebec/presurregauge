@@ -4,8 +4,7 @@ DROP TABLE IF EXISTS pressuregauge;
 DROP TABLE IF EXISTS config;
     
 CREATE TABLE config (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    key TEXT,
+    key TEXT PRIMARY KEY,
     value TEXT
 );
 
