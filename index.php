@@ -38,7 +38,7 @@ try {
 
 // Handle the form submission  
 $success_message = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && sha1($_POST['seed']) === $seed && !$_GET['saved']) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && sha1($_POST['seed']) === $seed) {
     $date = $_POST['date'];
     $time = $_POST['time'];
     $timestamp = date('Y-m-d H:i:s', strtotime($date . ' ' . $time));
@@ -69,9 +69,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && sha1($_POST['seed']) === $seed && !
     } catch(PDOException $e) {
         die("Error: " . $e->getMessage());
     }
-} else if ($_GET['saved']) {
-    // TODO: Is the ELSE -IF condition right?
-    if($_GET['saved']) $success_message = "Pressure gauge data has been saved.";
+} elseif (isset($_GET['saved']) && $_GET['saved']) {
+    $success_message = "Pressure gauge data has been saved.";
 }
 
 // Get all records from the database
