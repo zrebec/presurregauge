@@ -5,8 +5,8 @@ const urlsToCache = [
   '/index.php',
   '/style.css',
   '/favicon.svg',
-  '/icon-192.png',
-  '/icon-512.png'
+  '/favicon-192.png',
+  '/favicon-512.png'
 ];
 
 self.addEventListener('install', event => {
