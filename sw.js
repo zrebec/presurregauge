@@ -1,5 +1,5 @@
 // Based on https://developers.google.com/web/fundamentals/primers/service-workers
-const CACHE_NAME = 'pressure-gauge-v2';
+const CACHE_NAME = 'pressure-gauge-v3';
 const urlsToCache = [
   '/',
   '/index.php',
