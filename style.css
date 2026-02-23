@@ -45,13 +45,13 @@ input {
     background-color: var(--background-color-secondary);
     color: var(--foreground-color-secondary);
     width: 100%;
+    min-height: 44px; /* Better height for touch devices */
 }
 
 input[type="number"], input[type="date"], input[type="time"] {
     -webkit-appearance: none; /* Remove default iOS appearance */
     appearance: none; /* Standard property for compatibility */
     width: 100%; /* Full width */
-    min-height: 44px; /* Better height for touch devices */
     padding: 0.5rem;
     border: 1px solid var(--foreground-color-secondary);
     border-radius: 0.5rem;
