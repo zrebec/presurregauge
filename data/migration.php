@@ -31,7 +31,7 @@ $migrations = [
     // '000_pragma_settings.sql',
     // '001_create_structure.sql',
     // '002_basic_data.sql',
-    '004.alter_add_spo2_and_note.sql',
+    '003_alter_add_spo2_and_note.sql',
     // '999_test_file.sql',
 ];
 
