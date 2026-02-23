@@ -38,7 +38,7 @@ try {
 
 // Handle the form submission  
 $success_message = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && sha1($_POST['seed']) === $seed) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && sha1($_POST['seed']) === $seed && !$_GET['saved']) {
     $date = $_POST['date'];
     $time = $_POST['time'];
     $timestamp = date('Y-m-d H:i:s', strtotime($date . ' ' . $time));
@@ -59,12 +59,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && sha1($_POST['seed']) === $seed) {
         $stmt->bindParam(':heartrate', $heartrate);
         $stmt->bindParam(':spo2', $spo2);
         $stmt->bindParam(':note', $note);
-        
         $stmt->execute();
-        $success_message = "Pressure gauge data has been saved.";
+        // TODO: Can we check the sucessuflly save?
+
+        // Redirect after successfull save
+        header('Location: index.php?saved=1');
+        // TODO: Is exit needed after header('Location')?
+        exit;
     } catch(PDOException $e) {
         die("Error: " . $e->getMessage());
     }
+} else if ($_GET['saved']) {
+    // TODO: Is the ELSE -IF condition right?
+    if($_GET['saved']) $success_message = "Pressure gauge data has been saved.";
 }
 
 // Get all records from the database
@@ -89,5 +96,5 @@ echo $twig->render('index.twig', [
     'measurements' => $measurements,
     'current_date' => date('Y-m-d'),
     'current_time' => $current_time,
-    'success_message' => $success_message ?? null
+    'success_message' => $success_message
 ]);

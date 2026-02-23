@@ -1,5 +1,5 @@
 // Based on https://developers.google.com/web/fundamentals/primers/service-workers
-const CACHE_NAME = 'pressure-gauge-v1';
+const CACHE_NAME = 'pressure-gauge-v2';
 const urlsToCache = [
   '/',
   '/index.php',
@@ -16,6 +16,14 @@ self.addEventListener('install', event => {
         return cache.addAll(urlsToCache);
       })
   );
+});
+
+self.addEventListener('activate', event => {
+    event.waitUntil(
+        caches.keys().then(names =>
+            Promise.all(names.filter(n => n !== CACHE_NAME).map(n => caches.delete(n)))
+        )
+    );
 });
 
 self.addEventListener('fetch', event => {
