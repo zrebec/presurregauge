@@ -54,6 +54,12 @@
                 </div>
 
                 <div class="row">
+                    <label for="heartrate">SpO2:</label>
+                    <input type="number" id="spo2" name="spo2" 
+                    placeholder="97" pattern="[0-9]{1,2}" inputmode="numeric">
+                </div>
+
+                <div class="row">
                     <label for="seed">Seed:</label>
                     <input type="password" id="seed" name="seed">
                 </div>
@@ -72,6 +78,7 @@
                     <div class="measurement-data">
                         <div>Blood Pressure: {{ measurement.systolicpressure }}/{{ measurement.diastolicpressure }} mmHg</div>
                         <div>Heart Rate: {{ measurement.heartrate ? measurement.heartrate ~ ' BPM' : 'Not measured' }}</div>
+                        <div>Heart Rate: {{ measurement.spo2 ? measurement.spo2 ~ '% : 'Not measured' }}</div>
                     </div>
                 </div>
             {% else %}
